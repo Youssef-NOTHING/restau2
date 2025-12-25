@@ -37,6 +37,16 @@ function getDatabase() {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         
+        // Create client table if not exists
+        $db->exec("CREATE TABLE IF NOT EXISTS client (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            client_name VARCHAR(100) NOT NULL,
+            client_no VARCHAR(50) UNIQUE NOT NULL,
+            client_address VARCHAR(255),
+            client_email VARCHAR(100) UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        
         // Check if we need to seed demo users
         $stmt = $db->query("SELECT COUNT(*) as count FROM users");
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
