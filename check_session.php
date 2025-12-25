@@ -3,12 +3,12 @@ require_once 'config.php';
 
 header('Content-Type: application/json');
 
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['client_id'])) {
     echo json_encode([
         'loggedIn' => true,
-        'user' => [
-            'name' => $_SESSION['user_name'],
-            'email' => $_SESSION['user_email']
+        'restau' => [
+            'name' => $_SESSION['client_name'],
+            'email' => $_SESSION['client_email']
         ]
     ]);
 } else {
