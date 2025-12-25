@@ -14,11 +14,6 @@ $name = trim($input['name'] ?? '');
 $email = trim($input['email'] ?? '');
 $password = $input['password'] ?? '';
 $confirmPassword = $input['confirmPassword'] ?? '';
-$phone = trim($input['phone'] ?? '');
-$address = trim($input['address'] ?? '');
-$city = trim($input['city'] ?? '');
-$postalCode = trim($input['postalCode'] ?? '');
-$dietaryPreferences = trim($input['dietaryPreferences'] ?? '');
 
 // Validate input
 if (empty($name) || strlen($name) < 2) {
@@ -54,8 +49,8 @@ try {
     
     // Create new user
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $db->prepare("INSERT INTO users (name, email, password, phone, address, city, postal_code, dietary_preferences) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$name, $email, $hashedPassword, $phone, $address, $city, $postalCode, $dietaryPreferences]);
+    $stmt = $db->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+    $stmt->execute([$name, $email, $hashedPassword]);
     
     // Set session
     $userId = $db->lastInsertId();
