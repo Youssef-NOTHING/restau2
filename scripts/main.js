@@ -265,72 +265,48 @@ const observer = new IntersectionObserver(
 
 fadeItems.forEach((item) => observer.observe(item));
 
-const USER_STORE_KEY = 'ml_users';
-const LOGGED_USER_KEY = 'ml_current_user';
-
-function loadUsers() {
+// PHP-based authentication functions
+async function checkSession() {
   try {
-    const raw = localStorage.getItem(USER_STORE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const response = await fetch('check_session.php');
+    const data = await response.json();
+    return data.loggedIn ? data.user : null;
   } catch (e) {
-    console.warn('Unable to read users from storage', e);
-    return [];
-  }
-}
-
-function saveUsers(users) {
-  try {
-    localStorage.setItem(USER_STORE_KEY, JSON.stringify(users));
-  } catch (e) {
-    console.warn('Unable to save users to storage', e);
-  }
-}
-
-function ensureSeedUsers() {
-  const existing = loadUsers();
-  if (existing.length) return existing;
-  const seeded = [
-    { email: 'guest@maison.com', password: 'taste123', name: 'Guest' },
-    { email: 'demo@maison.com', password: 'demo123', name: 'Demo Diner' }
-  ];
-  saveUsers(seeded);
-  return seeded;
-}
-
-function authenticate(email, password) {
-  const users = ensureSeedUsers();
-  return users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-}
-
-function saveLoggedUser(user) {
-  try {
-    const safeUser = { name: user.name, email: user.email };
-    localStorage.setItem(LOGGED_USER_KEY, JSON.stringify(safeUser));
-  } catch (e) {
-    console.warn('Unable to save logged user', e);
-  }
-}
-
-function getLoggedUser() {
-  try {
-    const raw = localStorage.getItem(LOGGED_USER_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch (e) {
-    console.warn('Unable to read logged user', e);
+    console.warn('Unable to check session', e);
     return null;
   }
 }
 
-function clearLoggedUser() {
+async function loginUser(email, password) {
   try {
-    localStorage.removeItem(LOGGED_USER_KEY);
+    const response = await fetch('login_handler.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    return data;
   } catch (e) {
-    console.warn('Unable to clear logged user', e);
+    console.warn('Login request failed', e);
+    return { success: false, message: 'Connection error. Please try again.' };
   }
 }
 
-function updateHeaderForUser() {
-  const user = getLoggedUser();
+async function logoutUser() {
+  try {
+    const response = await fetch('logout_handler.php');
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.warn('Logout request failed', e);
+    return { success: false, message: 'Connection error.' };
+  }
+}
+
+async function updateHeaderForUser() {
+  const user = await checkSession();
   const loginLinks = document.querySelectorAll('.login-link');
   
   if (user) {
@@ -391,17 +367,19 @@ function showProfileModal(user) {
   });
   
   const logoutBtn = modal.querySelector('.logout-btn');
-  logoutBtn.addEventListener('click', () => {
-    clearLoggedUser();
-    showToast('Signed out successfully');
-    overlay.remove();
-    window.location.href = 'index.html';
+  logoutBtn.addEventListener('click', async () => {
+    const result = await logoutUser();
+    if (result.success) {
+      showToast('Signed out successfully');
+      overlay.remove();
+      window.location.href = 'index.html';
+    }
   });
 }
 
 updateHeaderForUser();
 
-loginForm?.addEventListener('submit', (evt) => {
+loginForm?.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   loginMessage.textContent = '';
 
@@ -421,17 +399,16 @@ loginForm?.addEventListener('submit', (evt) => {
     return;
   }
 
-  const user = authenticate(email, password);
+  const result = await loginUser(email, password);
 
-  if (!user) {
+  if (!result.success) {
     loginMessage.style.color = '#f56262';
-    loginMessage.textContent = 'No match found. Try the demo credentials listed or check your password.';
+    loginMessage.textContent = result.message;
     return;
   }
 
-  saveLoggedUser(user);
   loginMessage.style.color = '#6ce0c7';
-  loginMessage.textContent = `Welcome back, ${user.name || 'guest'}. You are now signed in.`;
+  loginMessage.textContent = result.message;
   showToast('Signed in successfully');
   loginForm.reset();
   
