@@ -41,14 +41,14 @@ try {
     }
     
     // Set session
-    $_SESSION['user_id'] = $user['id'];
-    $_SESSION['user_name'] = $user['name'];
-    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['client_id'] = $user['id'];
+    $_SESSION['client_name'] = $user['name'];
+    $_SESSION['client_email'] = $user['email'];
     
     echo json_encode([
         'success' => true,
         'message' => 'Welcome back, ' . $user['name'] . '. You are now signed in.',
-        'user' => [
+        'client' => [
             'name' => $user['name'],
             'email' => $user['email']
         ]
