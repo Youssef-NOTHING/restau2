@@ -266,6 +266,7 @@ const observer = new IntersectionObserver(
 fadeItems.forEach((item) => observer.observe(item));
 
 const USER_STORE_KEY = 'ml_users';
+const LOGGED_USER_KEY = 'ml_current_user';
 
 function loadUsers() {
   try {
@@ -301,6 +302,105 @@ function authenticate(email, password) {
   return users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 }
 
+function saveLoggedUser(user) {
+  try {
+    const safeUser = { name: user.name, email: user.email };
+    localStorage.setItem(LOGGED_USER_KEY, JSON.stringify(safeUser));
+  } catch (e) {
+    console.warn('Unable to save logged user', e);
+  }
+}
+
+function getLoggedUser() {
+  try {
+    const raw = localStorage.getItem(LOGGED_USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    console.warn('Unable to read logged user', e);
+    return null;
+  }
+}
+
+function clearLoggedUser() {
+  try {
+    localStorage.removeItem(LOGGED_USER_KEY);
+  } catch (e) {
+    console.warn('Unable to clear logged user', e);
+  }
+}
+
+function updateHeaderForUser() {
+  const user = getLoggedUser();
+  const loginLinks = document.querySelectorAll('.login-link');
+  
+  if (user) {
+    loginLinks.forEach((link) => {
+      link.innerHTML = `
+        <span class="profile-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </span>
+        <span class="profile-name">${user.name}</span>
+      `;
+      link.href = '#';
+      link.classList.add('profile-link');
+      link.setAttribute('title', user.email);
+      
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showProfileModal(user);
+      });
+    });
+  }
+}
+
+function showProfileModal(user) {
+  const existing = document.querySelector('.profile-modal-overlay');
+  if (existing) existing.remove();
+  
+  const overlay = document.createElement('div');
+  overlay.className = 'profile-modal-overlay';
+  
+  const modal = document.createElement('div');
+  modal.className = 'profile-modal';
+  modal.innerHTML = `
+    <button class="modal-close">&times;</button>
+    <div class="profile-modal-content">
+      <div class="profile-avatar">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <h2>${user.name}</h2>
+      <p class="profile-email">${user.email}</p>
+      <button class="btn primary logout-btn">Sign Out</button>
+    </div>
+  `;
+  
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  
+  const closeBtn = modal.querySelector('.modal-close');
+  closeBtn.addEventListener('click', () => overlay.remove());
+  
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+  
+  const logoutBtn = modal.querySelector('.logout-btn');
+  logoutBtn.addEventListener('click', () => {
+    clearLoggedUser();
+    showToast('Signed out successfully');
+    overlay.remove();
+    window.location.href = 'index.html';
+  });
+}
+
+updateHeaderForUser();
+
 loginForm?.addEventListener('submit', (evt) => {
   evt.preventDefault();
   loginMessage.textContent = '';
@@ -329,8 +429,13 @@ loginForm?.addEventListener('submit', (evt) => {
     return;
   }
 
+  saveLoggedUser(user);
   loginMessage.style.color = '#6ce0c7';
   loginMessage.textContent = `Welcome back, ${user.name || 'guest'}. You are now signed in.`;
   showToast('Signed in successfully');
   loginForm.reset();
+  
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 1000);
 });
