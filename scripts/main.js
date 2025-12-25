@@ -305,6 +305,23 @@ async function logoutUser() {
   }
 }
 
+async function signupUser(name, email, password, confirmPassword) {
+  try {
+    const response = await fetch('signup_handler.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, password, confirmPassword })
+    });
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.warn('Signup request failed', e);
+    return { success: false, message: 'Connection error. Please try again.' };
+  }
+}
+
 async function updateHeaderForUser() {
   const user = await checkSession();
   const loginLinks = document.querySelectorAll('.login-link');
@@ -416,3 +433,67 @@ loginForm?.addEventListener('submit', async (evt) => {
     window.location.href = 'index.html';
   }, 1000);
 });
+
+const signupForm = document.getElementById('signupForm');
+const signupMessage = document.getElementById('signupMessage');
+
+signupForm?.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+  signupMessage.textContent = '';
+
+  const formData = new FormData(signupForm);
+  const name = (formData.get('name') || '').toString().trim();
+  const email = (formData.get('email') || '').toString().trim();
+  const password = (formData.get('password') || '').toString();
+  const confirmPassword = (formData.get('confirmPassword') || '').toString();
+  const termsChecked = formData.get('terms');
+
+  if (!name || name.length < 2) {
+    signupMessage.textContent = 'Name must be at least 2 characters.';
+    signupMessage.style.color = '#f56262';
+    return;
+  }
+
+  if (!email || !email.includes('@')) {
+    signupMessage.textContent = 'Enter a valid email address.';
+    signupMessage.style.color = '#f56262';
+    return;
+  }
+
+  if (password.length < 6) {
+    signupMessage.textContent = 'Password must be at least 6 characters.';
+    signupMessage.style.color = '#f56262';
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    signupMessage.textContent = 'Passwords do not match.';
+    signupMessage.style.color = '#f56262';
+    return;
+  }
+
+  if (!termsChecked) {
+    signupMessage.textContent = 'Please agree to the terms and conditions.';
+    signupMessage.style.color = '#f56262';
+    return;
+  }
+
+  const result = await signupUser(name, email, password, confirmPassword);
+
+  if (!result.success) {
+    signupMessage.style.color = '#f56262';
+    signupMessage.textContent = result.message;
+    return;
+  }
+
+  signupMessage.style.color = '#6ce0c7';
+  signupMessage.textContent = result.message;
+  showToast('Account created successfully!');
+  signupForm.reset();
+  
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 1000);
+});
+
+updateHeaderForUser();
