@@ -1,6 +1,9 @@
 <?php
-// Database configuration
-define('DB_FILE', __DIR__ . '/restaurant.db');
+// MySQL Database Configuration
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'restaurant_db');
 
 // Start session
 if (session_status() === PHP_SESSION_NONE) {
@@ -10,17 +13,24 @@ if (session_status() === PHP_SESSION_NONE) {
 // Initialize database
 function getDatabase() {
     try {
-        $db = new PDO('sqlite:' . DB_FILE);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db = new PDO(
+            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER,
+            DB_PASS,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]
+        );
         
         // Create users table if not exists
         $db->exec("CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )");
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         
         // Check if we need to seed demo users
         $stmt = $db->query("SELECT COUNT(*) as count FROM users");
@@ -35,7 +45,7 @@ function getDatabase() {
         
         return $db;
     } catch (PDOException $e) {
-        die("Database error: " . $e->getMessage());
+        die(json_encode(['success' => false, 'message' => 'Database connection error. Please check your MySQL configuration.']));
     }
 }
 ?>
