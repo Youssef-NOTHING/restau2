@@ -265,6 +265,42 @@ const observer = new IntersectionObserver(
 
 fadeItems.forEach((item) => observer.observe(item));
 
+const USER_STORE_KEY = 'ml_users';
+
+function loadUsers() {
+  try {
+    const raw = localStorage.getItem(USER_STORE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.warn('Unable to read users from storage', e);
+    return [];
+  }
+}
+
+function saveUsers(users) {
+  try {
+    localStorage.setItem(USER_STORE_KEY, JSON.stringify(users));
+  } catch (e) {
+    console.warn('Unable to save users to storage', e);
+  }
+}
+
+function ensureSeedUsers() {
+  const existing = loadUsers();
+  if (existing.length) return existing;
+  const seeded = [
+    { email: 'guest@maison.com', password: 'taste123', name: 'Guest' },
+    { email: 'demo@maison.com', password: 'demo123', name: 'Demo Diner' }
+  ];
+  saveUsers(seeded);
+  return seeded;
+}
+
+function authenticate(email, password) {
+  const users = ensureSeedUsers();
+  return users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+}
+
 loginForm?.addEventListener('submit', (evt) => {
   evt.preventDefault();
   loginMessage.textContent = '';
@@ -285,8 +321,16 @@ loginForm?.addEventListener('submit', (evt) => {
     return;
   }
 
+  const user = authenticate(email, password);
+
+  if (!user) {
+    loginMessage.style.color = '#f56262';
+    loginMessage.textContent = 'No match found. Try the demo credentials listed or check your password.';
+    return;
+  }
+
   loginMessage.style.color = '#6ce0c7';
-  loginMessage.textContent = 'Welcome back. You are now signed in.';
+  loginMessage.textContent = `Welcome back, ${user.name || 'guest'}. You are now signed in.`;
   showToast('Signed in successfully');
   loginForm.reset();
 });
