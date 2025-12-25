@@ -305,14 +305,14 @@ async function logoutUser() {
   }
 }
 
-async function signupUser(name, email, password, confirmPassword) {
+async function signupUser(name, email, password, confirmPassword, phone, address, city, postalCode, dietaryPreferences) {
   try {
     const response = await fetch('signup_handler.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name, email, password, confirmPassword })
+      body: JSON.stringify({ name, email, password, confirmPassword, phone, address, city, postalCode, dietaryPreferences })
     });
     const data = await response.json();
     return data;
@@ -446,6 +446,11 @@ signupForm?.addEventListener('submit', async (evt) => {
   const email = (formData.get('email') || '').toString().trim();
   const password = (formData.get('password') || '').toString();
   const confirmPassword = (formData.get('confirmPassword') || '').toString();
+  const phone = (formData.get('phone') || '').toString().trim();
+  const address = (formData.get('address') || '').toString().trim();
+  const city = (formData.get('city') || '').toString().trim();
+  const postalCode = (formData.get('postalCode') || '').toString().trim();
+  const dietaryPreferences = (formData.get('dietaryPreferences') || '').toString().trim();
   const termsChecked = formData.get('terms');
 
   if (!name || name.length < 2) {
@@ -478,7 +483,7 @@ signupForm?.addEventListener('submit', async (evt) => {
     return;
   }
 
-  const result = await signupUser(name, email, password, confirmPassword);
+  const result = await signupUser(name, email, password, confirmPassword, phone, address, city, postalCode, dietaryPreferences);
 
   if (!result.success) {
     signupMessage.style.color = '#f56262';
