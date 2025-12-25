@@ -30,8 +30,13 @@ try {
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if (!$user || !password_verify($password, $user['password'])) {
-        echo json_encode(['success' => false, 'message' => 'No match found. Try the demo credentials listed or check your password.']);
+    if (!$user) {
+        echo json_encode(['success' => false, 'message' => 'No account found with this email. Please sign up first.']);
+        exit;
+    }
+    
+    if (!password_verify($password, $user['password'])) {
+        echo json_encode(['success' => false, 'message' => 'Incorrect password. Please try again.']);
         exit;
     }
     
