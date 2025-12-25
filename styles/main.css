@@ -990,6 +990,21 @@ img {
   align-items: center;
 }
 
+.demo-creds {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.demo-creds ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  color: var(--text);
+}
+
 .site-footer {
   padding: 20px 32px 40px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
