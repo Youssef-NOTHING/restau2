@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Lumiere | Sign Up</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">Maison Lumiere</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span>
+    </button>
+    <nav class="main-nav">
+      <a href="index.html#hero">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="index.html#info">Info</a>
+      <a href="index.html#contact">Visit</a>
+      <a class="login-link" href="login.html" aria-label="Login">
+        <span class="nav-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+        </span>
+        <span>Login</span>
+      </a>
+    </nav>
+    <button class="cart-toggle" aria-label="Shopping cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="auth-hero">
+      <div class="auth-copy">
+        <p class="eyebrow">Join us</p>
+        <h1>Create Your Account</h1>
+        <p class="lede">Get exclusive access to reservations, favorite menus, and personalized dining experiences.</p>
+        <div class="auth-perks">
+          <div class="perk-card">
+            <h3>Quick orders</h3>
+            <p>Save your favorite dishes and reorder in seconds.</p>
+          </div>
+          <div class="perk-card">
+            <h3>Easy reservations</h3>
+            <p>Book tables with one click using your saved preferences.</p>
+          </div>
+          <div class="perk-card">
+            <h3>Member benefits</h3>
+            <p>Access early menus, special offers, and exclusive events.</p>
+          </div>
+        </div>
+        <div class="auth-cta">
+          <a class="btn ghost" href="menu.html">Browse menu</a>
+          <a class="btn primary" href="login.html">Already have an account?</a>
+        </div>
+      </div>
+
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <p class="muted">Fill in your details to get started.</p>
+        <form id="signupForm" class="auth-form" novalidate>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" name="email" placeholder="you@example.com" required>
+
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" name="password" placeholder="At least 6 characters" required>
+
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirmPassword" placeholder="Re-enter your password" required>
+
+          <label class="checkbox">
+            <input type="checkbox" name="terms" id="terms" required>
+            <span>I agree to the <a href="#" class="inline-link">terms and conditions</a></span>
+          </label>
+
+          <button type="submit" class="btn primary">Create Account</button>
+          <p class="form-message" id="signupMessage" role="status" aria-live="polite"></p>
+        </form>
+        <div class="auth-footer-text">
+          <span>Already registered?</span>
+          <a class="inline-link" href="login.html">Sign in here</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="foot-left">
+      <div class="logo">Maison Lumiere</div>
+      <p class="muted">Seasonal kitchen. Low lights. High touch.</p>
+    </div>
+    <div class="foot-right">
+      <p>Hours: Tue–Sun, 5:30–11:30 PM</p>
+      <p>214 Lantern Street, District 7</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Newsletter">Newsletter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
