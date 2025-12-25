@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Lumiere | Menu</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">Maison Lumiere</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span>
+    </button>
+    <nav class="main-nav">
+      <a href="index.html#hero">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="#reserve">Reserve</a>
+      <a href="index.html#contact">Visit</a>
+    </nav>
+    <button class="cart-toggle" aria-label="Shopping cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- Cart Panel -->
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close">&times;</button>
+    </div>
+    <div class="cart-items">
+      <p class="empty-cart">Your cart is empty</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span class="total-price">$0.00</span>
+      </div>
+      <button class="btn primary" style="width: 100%;">Checkout</button>
+    </div>
+  </div>
+  <div class="cart-overlay"></div>
+
+  <main>
+    <section class="hero" id="menu-hero">
+      <div class="hero-content">
+        <h1>Tonight's Menu</h1>
+        <p class="lede">Hand-picked seasonal plates, crafted for sharing and savoring.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#menu">Start an Order</a>
+          <a class="btn ghost" href="#reserve">Book a Table</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="assets/chef.png" alt="Menu showcase">
+      </div>
+    </section>
+
+    <section id="menu" class="menu">
+      <div class="section-header">
+        <h2>Our Menu</h2>
+        <p class="muted">Browse by category, see prices, and add to your cart. Details show chef notes and highlights.</p>
+        <div class="filters" role="group" aria-label="Menu filters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="starters">Starters</button>
+          <button class="chip" data-filter="mains">Mains</button>
+          <button class="chip" data-filter="dessert">Dessert</button>
+        </div>
+      </div>
+      <div class="menu-grid">
+        <article class="menu-card" data-category="starters">
+          <img src="assets/croissant.png" alt="Charred Leek Terrine" class="menu-img">
+          <div class="tag">Starters</div>
+          <h3>Charred Leek Terrine</h3>
+          <span class="price">$14</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="starters">
+          <img src="assets/croissant.png" alt="Oyster Trio" class="menu-img">
+          <div class="tag">Starters</div>
+          <h3>Oyster Trio</h3>
+          <span class="price">$18</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="starters">
+          <img src="assets/croissant.png" alt="French Onion Soup" class="menu-img">
+          <div class="tag">Starters</div>
+          <h3>French Onion Soup</h3>
+          <span class="price">$12</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="mains">
+          <img src="assets/croissant.png" alt="Crisped Sea Bass" class="menu-img">
+          <div class="tag">Mains</div>
+          <h3>Crisped Sea Bass</h3>
+          <span class="price">$32</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="mains">
+          <img src="assets/croissant.png" alt="Wood-Fired Duck" class="menu-img">
+          <div class="tag">Mains</div>
+          <h3>Wood-Fired Duck</h3>
+          <span class="price">$36</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="mains">
+          <img src="assets/croissant.png" alt="Grilled Ribeye Steak" class="menu-img">
+          <div class="tag">Mains</div>
+          <h3>Grilled Ribeye Steak</h3>
+          <span class="price">$42</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="mains">
+          <img src="assets/croissant.png" alt="Lamb Chops" class="menu-img">
+          <div class="tag">Mains</div>
+          <h3>Lamb Chops</h3>
+          <span class="price">$38</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="dessert">
+          <img src="assets/croissant.png" alt="Crème Brûlée Tart" class="menu-img">
+          <div class="tag">Dessert</div>
+          <h3>Crème Brûlée Tart</h3>
+          <span class="price">$12</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="dessert">
+          <img src="assets/croissant.png" alt="Dark Chocolate Torte" class="menu-img">
+          <div class="tag">Dessert</div>
+          <h3>Dark Chocolate Torte</h3>
+          <span class="price">$14</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+        <article class="menu-card" data-category="dessert">
+          <img src="assets/croissant.png" alt="Tarte Tatin" class="menu-img">
+          <div class="tag">Dessert</div>
+          <h3>Tarte Tatin</h3>
+          <span class="price">$13</span>
+          <div class="card-actions">
+            <button class="card-btn buy-btn">Buy Now</button>
+            <button class="card-btn details-btn">Details</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="reserve" class="reserve">
+      <div class="reserve-card">
+        <div class="card-copy">
+          <h2>Book Your Table</h2>
+          <ul class="details">
+            <li>Hours: Tue–Sun, 5:30–11:30 PM</li>
+            <li>Location: 214 Lantern Street</li>
+            <li>Phone: (415) 555-0147</li>
+          </ul>
+        </div>
+        <form class="reserve-form" id="reserveForm" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+          <label for="date">Date</label>
+          <input id="date" name="date" type="date" required>
+
+          <label for="time">Time</label>
+          <input id="time" name="time" type="time" required>
+
+          <label for="guests">Guests</label>
+          <input id="guests" name="guests" type="number" min="1" max="10" value="2" required>
+
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Allergies, celebrations, seating preferences"></textarea>
+
+          <button type="submit" class="btn primary">Request reservation</button>
+          <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
