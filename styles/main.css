@@ -104,6 +104,29 @@ img {
   height: 16px;
 }
 
+.profile-link {
+  background: rgba(255, 107, 107, 0.1);
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.profile-link:hover {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: var(--accent);
+}
+
+.profile-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent);
+}
+
+.profile-name {
+  font-weight: 600;
+  color: var(--text);
+}
+
 .cart-toggle {
   position: relative;
   display: flex;
@@ -1399,4 +1422,71 @@ img {
 .modal-buy-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+/* Profile Modal */
+.profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  animation: fadeIn 0.3s ease;
+}
+
+.profile-modal {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideUp 0.3s ease;
+  text-align: center;
+}
+
+.profile-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 217, 61, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  border: 2px solid rgba(255, 107, 107, 0.3);
+}
+
+.profile-avatar svg {
+  stroke: var(--accent);
+}
+
+.profile-modal h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile-email {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.logout-btn {
+  margin-top: 8px;
+  width: 100%;
 }
