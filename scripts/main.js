@@ -4,6 +4,8 @@ const filterButtons = document.querySelectorAll('.chip');
 const menuCards = document.querySelectorAll('.menu-card');
 const form = document.getElementById('reserveForm');
 const formMessage = document.getElementById('formMessage');
+const loginForm = document.getElementById('loginForm');
+const loginMessage = document.getElementById('loginMessage');
 const cartToggle = document.querySelector('.cart-toggle');
 const cartPanel = document.querySelector('.cart-panel');
 const cartOverlay = document.querySelector('.cart-overlay');
@@ -248,7 +250,7 @@ form?.addEventListener('submit', (evt) => {
   form.reset();
 });
 
-const fadeItems = document.querySelectorAll('.menu-card, .story, .reserve-card, .contact-card, .contact-map');
+const fadeItems = document.querySelectorAll('.menu-card, .story, .reserve-card, .contact-card, .contact-map, .info-card, .auth-card');
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -262,3 +264,29 @@ const observer = new IntersectionObserver(
 );
 
 fadeItems.forEach((item) => observer.observe(item));
+
+loginForm?.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  loginMessage.textContent = '';
+
+  const formData = new FormData(loginForm);
+  const email = (formData.get('email') || '').toString().trim();
+  const password = (formData.get('password') || '').toString();
+
+  if (!email || !email.includes('@')) {
+    loginMessage.textContent = 'Enter a valid email address.';
+    loginMessage.style.color = '#f56262';
+    return;
+  }
+
+  if (password.length < 6) {
+    loginMessage.textContent = 'Password must be at least 6 characters.';
+    loginMessage.style.color = '#f56262';
+    return;
+  }
+
+  loginMessage.style.color = '#6ce0c7';
+  loginMessage.textContent = 'Welcome back. You are now signed in.';
+  showToast('Signed in successfully');
+  loginForm.reset();
+});
