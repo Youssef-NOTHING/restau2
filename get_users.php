@@ -7,7 +7,7 @@ try {
     $db = getDatabase();
     
     // Get all users from database
-    $stmt = $db->prepare("SELECT id, name, email, phone, address, city, postal_code, dietary_preferences, created_at FROM users ORDER BY created_at DESC");
+    $stmt = $db->prepare("SELECT id, name, email, phone, address, city, postal_code, dietary_preferences, created_at FROM restau ORDER BY created_at DESC");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
